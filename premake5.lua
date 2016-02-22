@@ -206,6 +206,7 @@
 				links { "curl" }
 			end
 			if not _OPTIONS["no-zlib"] then
+				includedirs { "/usr/local/lib/libzip/include" }
 				links { "z", "zip" }
 			end
 			if not _OPTIONS["no-curl"] and os.findlib("ssl") then
