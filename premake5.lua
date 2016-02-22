@@ -67,10 +67,19 @@
 		description = "Disable Curl 3rd party lib"
 	}
 
+	newoption {
+		trigger = "system-curl",
+		description = "Use system curl library"
+	}
 
 	newoption {
 		trigger = "no-zlib",
 		description = "Disable Zlib/Zip 3rd party lib"
+	}
+
+	newoption {
+		trigger = "system-zlib",
+		description = "Use system zlib/zip library"
 	}
 
 	newoption {
@@ -105,12 +114,12 @@
 		includedirs { "src/host/lua/src" }
 
 		-- optional 3rd party libraries
-		if not _OPTIONS["no-zlib"] then
+		if not _OPTIONS["no-zlib"] and not _OPTIONS["system-zlib"] then
 			includedirs { "contrib/zlib", "contrib/libzip" }
 			defines { "PREMAKE_COMPRESSION" }
 			links { "zip-lib", "zlib-lib" }
 		end
-		if not _OPTIONS["no-curl"] then
+		if not _OPTIONS["no-curl"] and not _OPTIONS["system-curl"]  then
 			includedirs { "contrib/curl/include" }
 			defines { "CURL_STATICLIB", "PREMAKE_CURL" }
 			links { "curl-lib" }
@@ -180,14 +189,28 @@
 			defines     { "LUA_USE_POSIX", "LUA_USE_DLOPEN" }
 			links       { "m" }
 
+		configuration "openbsd"
+			includedirs { "/usr/local/include" }
+			libdirs { "/usr/local/lib" }
+			links { "m" }
+			if not _OPTIONS["no-curl"] then
+				links { "curl" }
+			end
+			if not _OPTIONS["no-zlib"] then
+				links { "z", "zip" }
+			end
+			if not _OPTIONS["no-curl"] and os.findlib("ssl") then
+				links	{ "ssl", "crypto" }
+			end
+
 
 	-- optional 3rd party libraries
 	group "contrib"
-		if not _OPTIONS["no-zlib"] then
+		if not _OPTIONS["no-zlib"] and not _OPTIONS["system-zlib"] then
 			include "contrib/zlib"
 			include "contrib/libzip"
 		end
-		if not _OPTIONS["no-curl"] then
+		if not _OPTIONS["no-curl"] and not _OPTIONS["system-curl"] then
 			include "contrib/curl"
 		end
 
