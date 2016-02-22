@@ -69,7 +69,7 @@ openbsd: $(SRC)
 	mkdir -p build/bootstrap
 	$(CC) -o build/bootstrap/premake_bootstrap -DPREMAKE_NO_BUILTIN_SCRIPTS -DLUA_USE_POSIX -DLUA_USE_DLOPEN -I"$(LUA_DIR)" $? -lm
 	./build/bootstrap/premake_bootstrap embed
-	./build/bootstrap/premake_bootstrap --to=build/bootstrap gmake
+	./build/bootstrap/premake_bootstrap --to=build/bootstrap --system-zlib --system-curl gmake
 	$(MAKE) -C build/bootstrap -j`sysctl -n hw.ncpu`
 
 windows: $(SRC)
