@@ -42,7 +42,7 @@ none:
 	@echo "or"
 	@echo "   make -f Bootstrap.mak HOST_PLATFORM"
 	@echo "where HOST_PLATFORM is one of these:"
-	@echo "   osx linux"
+	@echo "   osx linux openbsd"
 
 mingw: $(SRC)
 	mkdir -p build/bootstrap
@@ -64,6 +64,13 @@ linux: $(SRC)
 	./build/bootstrap/premake_bootstrap embed
 	./build/bootstrap/premake_bootstrap --to=build/bootstrap gmake
 	$(MAKE) -C build/bootstrap -j`getconf _NPROCESSORS_ONLN`
+
+openbsd: $(SRC)
+	mkdir -p build/bootstrap
+	$(CC) -o build/bootstrap/premake_bootstrap -DPREMAKE_NO_BUILTIN_SCRIPTS -DLUA_USE_POSIX -DLUA_USE_DLOPEN -I"$(LUA_DIR)" $? -lm
+	./build/bootstrap/premake_bootstrap embed
+	./build/bootstrap/premake_bootstrap --to=build/bootstrap gmake
+	$(MAKE) -C build/bootstrap -j`sysctl -n hw.ncpu`
 
 windows: $(SRC)
 	if not exist build\bootstrap (mkdir build\bootstrap)
