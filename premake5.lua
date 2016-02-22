@@ -190,6 +190,7 @@
 			links       { "m" }
 
 		configuration "openbsd"
+			defines     { "LUA_USE_POSIX", "LUA_USE_DLOPEN" }
 			includedirs { "/usr/local/include" }
 			libdirs { "/usr/local/lib" }
 			links { "m" }
