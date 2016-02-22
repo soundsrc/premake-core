@@ -119,10 +119,18 @@
 			defines { "PREMAKE_COMPRESSION" }
 			links { "zip-lib", "zlib-lib" }
 		end
-		if not _OPTIONS["no-curl"] and not _OPTIONS["system-curl"]  then
+		if not _OPTIONS["no-curl"] and not _OPTIONS["system-curl"] then
 			includedirs { "contrib/curl/include" }
 			defines { "CURL_STATICLIB", "PREMAKE_CURL" }
 			links { "curl-lib" }
+		end
+
+		if _OPTIONS["system-zlib"] then
+			defines { "PREMAKE_COMPRESSION" }
+		end
+
+		if _OPTIONS["system-curl"] then
+			defines { "PREMAKE_CURL" }
 		end
 
 		files
