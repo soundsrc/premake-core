@@ -41,7 +41,7 @@
 			[".s"] = "Sources",
 			[".S"] = "Sources",
 		}
-		if node.isResource then
+		if node.isResource or (node.abspath and os.isdir(node.abspath)) then
 			return "Resources"
 		end
 		return categories[path.getextension(node.name)]
@@ -99,6 +99,10 @@
 					return "sourcecode.cpp.objcpp"
 				end
 			end
+		end
+
+		if node.abspath and os.isdir(node.abspath) then
+			return "folder"
 		end
 
 		local types = {
