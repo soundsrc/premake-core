@@ -679,7 +679,12 @@
 		_p(3,'isa = PBXProject;')
 		_p(3,'buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "%s" */;', tr.name)
 		_p(3,'compatibilityVersion = "Xcode 3.2";')
+		_p(3,'developmentRegion = en;')
 		_p(3,'hasScannedForEncodings = 1;')
+		_p(3,'knownRegions = (')
+		_p(4,'en,')
+		_p(3,');')
+
 		_p(3,'mainGroup = %s /* %s */;', tr.id, tr.name)
 		_p(3,'projectDirPath = "";')
 
@@ -991,7 +996,9 @@
 			Universal = "$(ARCHS_STANDARD_32_64_BIT)",
 		}
 
-		settings['ARCHS'] = archs[cfg.platform or "Native"]
+		if cfg.plaform ~= nil and cfg.plaform ~= "Native" then
+			settings['ARCHS'] = archs[cfg.platform or "Native"]
+		end
 
 		--ms This is the default so don;t write it
 		--settings['SDKROOT'] = 'macosx'
@@ -1046,7 +1053,29 @@
 			settings['GCC_TREAT_WARNINGS_AS_ERRORS'] = 'YES'
 		end
 
+		settings['CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING'] = 'YES'
+		settings['CLANG_WARN_BOOL_CONVERSION'] = 'YES'
+		settings['CLANG_WARN_COMMA'] = 'YES'
+		settings['CLANG_WARN_CONSTANT_CONVERSION'] = 'YES'
+		settings['CLANG_WARN_EMPTY_BODY'] = 'YES'
+		settings['CLANG_WARN_ENUM_CONVERSION'] = 'YES'
+		settings['CLANG_WARN_INFINITE_RECURSION'] = 'YES'
+		settings['CLANG_WARN_INT_CONVERSION'] = 'YES'
+		settings['CLANG_WARN_NON_LITERAL_NULL_CONVERSION'] = 'YES'
+		settings['CLANG_WARN_OBJC_LITERAL_CONVERSION'] = 'YES'
+		settings['CLANG_WARN_RANGE_LOOP_ANALYSIS'] = 'YES'
+		settings['CLANG_WARN_STRICT_PROTOTYPES'] = 'YES'
+		settings['CLANG_WARN_SUSPICIOUS_MOVE'] = 'YES'
+		settings['CLANG_WARN_UNREACHABLE_CODE'] = 'YES'
+		settings['CLANG_WARN__DUPLICATE_METHOD_MATCH'] = 'YES'
+		settings['ENABLE_STRICT_OBJC_MSGSEND'] = 'YES'
+		settings['ENABLE_TESTABILITY'] = 'YES'
+		settings['GCC_NO_COMMON_BLOCKS'] = 'YES'
+		settings['GCC_WARN_64_TO_32_BIT_CONVERSION'] = 'YES'
 		settings['GCC_WARN_ABOUT_RETURN_TYPE'] = 'YES'
+		settings['GCC_WARN_UNDECLARED_SELECTOR'] = 'YES'
+		settings['GCC_WARN_UNINITIALIZED_AUTOS'] = 'YES'
+		settings['GCC_WARN_UNUSED_FUNCTION'] = 'YES'
 		settings['GCC_WARN_UNUSED_VARIABLE'] = 'YES'
 
 		local includedirs = project.getrelative(cfg.project, cfg.includedirs)
