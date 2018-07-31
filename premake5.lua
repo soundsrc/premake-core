@@ -65,13 +65,15 @@
 
 	newoption {
 		trigger = "no-curl",
-		description = "Disable Curl 3rd party lib"
+		description = "Disable Curl 3rd party lib",
+		default = true
 	}
 
 
 	newoption {
 		trigger = "no-zlib",
-		description = "Disable Zlib/Zip 3rd party lib"
+		description = "Disable Zlib/Zip 3rd party lib",
+		default = true
 	}
 
 	newoption {
@@ -127,6 +129,75 @@
 		targetname  "premake5"
 		language    "C"
 		kind        "ConsoleApp"
+		includedirs { "contrib/lua/src", "contrib/luashim" }
+		links       { "lua-lib" }
+
+		-- optional 3rd party libraries
+		if not _OPTIONS["no-zlib"] then
+			includedirs { "contrib/zlib", "contrib/libzip" }
+			links { "zip-lib", "zlib-lib" }
+		end
+		if not _OPTIONS["no-curl"] then
+			includedirs { "contrib/curl/include" }
+			links { "curl-lib" }
+		end
+
+		files
+		{
+			"*.txt", "**.lua",
+			"src/**.h", "src/**.c",
+			"modules/**"
+		}
+
+		excludes
+		{
+			"contrib/**.*",
+			"binmodules/**.*",
+			"src/host/premake_dll.c"
+		}
+
+		filter "configurations:Debug"
+			targetdir   "bin/debug"
+			debugargs   { "--scripts=%{prj.location}/%{path.getrelative(prj.location, prj.basedir)} test"}
+			debugdir    "%{path.getrelative(prj.location, prj.basedir)}"
+
+		filter "configurations:Release"
+			targetdir   "bin/release"
+
+		filter "system:windows"
+			links       { "ole32", "ws2_32", "advapi32" }
+
+		filter "system:linux or bsd or hurd"
+			defines     { "LUA_USE_POSIX", "LUA_USE_DLOPEN" }
+			links       { "m" }
+			linkoptions { "-rdynamic" }
+
+		filter "system:linux or hurd"
+			links       { "dl", "rt" }
+
+		filter { "system:not windows", "system:not macosx" }
+			if not _OPTIONS["no-curl"] then
+				links   { "mbedtls-lib" }
+			end
+
+		filter "system:macosx"
+			defines     { "LUA_USE_MACOSX" }
+			links       { "CoreServices.framework", "Foundation.framework", "Security.framework", "readline" }
+
+		filter { "system:macosx", "action:gmake" }
+			toolset "clang"
+
+		filter { "system:solaris" }
+			linkoptions { "-Wl,--export-dynamic" }
+
+		filter "system:aix"
+			defines     { "LUA_USE_POSIX", "LUA_USE_DLOPEN" }
+			links       { "m" }
+
+	project "Premake5DLL"
+		targetname  "premake5"
+		language    "C"
+		kind        "SharedLib"
 		includedirs { "contrib/lua/src", "contrib/luashim" }
 		links       { "lua-lib" }
 
