@@ -22,6 +22,7 @@ project "lua-lib"
 	}
 
 	filter "system:linux or bsd or hurd or aix"
+		pic "On"
 		defines     { "LUA_USE_POSIX", "LUA_USE_DLOPEN" }
 
 	filter "system:macosx"
