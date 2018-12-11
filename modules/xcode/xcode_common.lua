@@ -1374,6 +1374,7 @@
 		settings['GCC_WARN_UNINITIALIZED_AUTOS'] = 'YES'
 		settings['GCC_WARN_UNUSED_FUNCTION'] = 'YES'
 		settings['GCC_WARN_UNUSED_VARIABLE'] = 'YES'
+		settings['CLANG_ENABLE_OBJC_WEAK'] = 'YES'
 
 		local includedirs = project.getrelative(cfg.project, cfg.includedirs)
 		for i,v in ipairs(includedirs) do
