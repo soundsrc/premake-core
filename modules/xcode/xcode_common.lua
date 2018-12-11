@@ -1322,10 +1322,6 @@
 			settings['GCC_ENABLE_CPP_RTTI'] = 'NO'
 		end
 
-		if cfg.symbols == p.ON and cfg.editandcontinue ~= "Off" then
-			settings['GCC_ENABLE_FIX_AND_CONTINUE'] = 'YES'
-		end
-
 		if cfg.exceptionhandling == p.OFF then
 			settings['GCC_ENABLE_OBJC_EXCEPTIONS'] = 'NO'
 		end
