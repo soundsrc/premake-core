@@ -1375,6 +1375,8 @@
 		settings['GCC_WARN_UNUSED_FUNCTION'] = 'YES'
 		settings['GCC_WARN_UNUSED_VARIABLE'] = 'YES'
 		settings['CLANG_ENABLE_OBJC_WEAK'] = 'YES'
+		settings['CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS'] = 'YES'
+		settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'YES'
 
 		local includedirs = project.getrelative(cfg.project, cfg.includedirs)
 		for i,v in ipairs(includedirs) do
