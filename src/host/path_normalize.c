@@ -22,6 +22,24 @@ static void* normalize_substring(const char* srcPtr, const char* srcEnd, char* d
 #define IS_END(__p)			(__p >= srcEnd || *__p == '\0')
 #define IS_SEP_OR_END(__p)	(IS_END(__p) || IS_SEP(*__p))
 
+	// handle $(...) at the beginning of the path
+	if (srcPtr[0] == '$' && srcPtr[1] == '(')
+	{
+		const char *end = srcPtr + 2;
+		while (*end != ')' && *end &&
+			(isalnum(*end) || *end == '_' || *end == '.'))
+		{
+			++end;	
+		}
+
+		if (*end == ')')
+		{
+			while (*srcPtr != ')')
+				*dstPtr++ = *srcPtr++;
+			*dstPtr++ = *srcPtr++;
+		}
+	}
+
 	// Handle Windows absolute paths
 	if (IS_ALPHA(srcPtr[0]) && srcPtr[1] == ':')
 	{
