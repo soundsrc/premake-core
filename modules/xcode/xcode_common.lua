@@ -1146,7 +1146,7 @@
 		end
 
 		local outdir = path.getrelative(tr.project.location, path.getdirectory(cfg.buildtarget.relpath))
-		if outdir ~= "." then
+		if outdir ~= "." and outdir ~= "" then
 			settings['CONFIGURATION_BUILD_DIR'] = outdir
 		end
 
