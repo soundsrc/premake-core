@@ -868,6 +868,7 @@
 		_p(3,'hasScannedForEncodings = 1;')
 		_p(3,'knownRegions = (')
 		_p(4,'en,')
+		_p(4,'Base,')
 		_p(3,');')
 
 		_p(3,'mainGroup = %s /* %s */;', tr.id, tr.name)
